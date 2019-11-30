@@ -152,10 +152,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
+    <ClCompile Include="OS_Lab11_Server.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OS_Lab11_Server.c" />
+    <ClInclude Include="Book.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
