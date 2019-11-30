@@ -154,6 +154,9 @@
   <ItemGroup>
     <ClCompile Include="OS_Lab11_WriterClient.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\OS_Lab11_Server\Book.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
