@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 
+//SERVER
 int main()
 {
 	// it'sa me marioo
