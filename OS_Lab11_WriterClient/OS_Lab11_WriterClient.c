@@ -40,6 +40,13 @@ int main()
 		++lineNumber;
 	}
 
-	Book* book = book_create(name, lines);
+	Book* book = book_create(name, lines, linesList->count);
+
+	for (int i = 0; i < linesList->count; ++i)
+	{
+		free(lines[i]);
+	}
+	free(lines);
+
 	return 0;
 }
