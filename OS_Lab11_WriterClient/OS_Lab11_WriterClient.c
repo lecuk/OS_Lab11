@@ -4,5 +4,6 @@
 //WRITER
 int main()
 {
+
 	return 0;
 }
