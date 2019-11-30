@@ -4,6 +4,6 @@
 //READER
 int main()
 {
-	ass
+	new ass
 	return 0;
 }
