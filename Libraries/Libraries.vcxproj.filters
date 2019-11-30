@@ -15,7 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OS_Lab11_Server.c">
+    <ClInclude Include="llist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pretty_console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="llist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="book.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

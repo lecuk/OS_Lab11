@@ -4,10 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OS_Lab11_Server", "OS_Lab11_Server\OS_Lab11_Server.vcxproj", "{3C859E02-530E-45B6-8412-A9F905CD7EC3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B} = {837EDC4F-F059-485B-885E-7EDAA9C4392B}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OS_Lab11_WriterClient", "OS_Lab11_WriterClient\OS_Lab11_WriterClient.vcxproj", "{7806D506-54C5-464F-BA6D-9AE6078FDA3F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B} = {837EDC4F-F059-485B-885E-7EDAA9C4392B}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OS_Lab11_ReaderClient", "OS_Lab11_ReaderClient\OS_Lab11_ReaderClient.vcxproj", "{37591E1E-93CD-4D67-A056-45729CF1D325}"
+	ProjectSection(ProjectDependencies) = postProject
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B} = {837EDC4F-F059-485B-885E-7EDAA9C4392B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libraries", "Libraries\Libraries.vcxproj", "{837EDC4F-F059-485B-885E-7EDAA9C4392B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +52,14 @@ Global
 		{37591E1E-93CD-4D67-A056-45729CF1D325}.Release|x64.Build.0 = Release|x64
 		{37591E1E-93CD-4D67-A056-45729CF1D325}.Release|x86.ActiveCfg = Release|Win32
 		{37591E1E-93CD-4D67-A056-45729CF1D325}.Release|x86.Build.0 = Release|Win32
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Debug|x64.ActiveCfg = Debug|x64
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Debug|x64.Build.0 = Debug|x64
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Debug|x86.ActiveCfg = Debug|Win32
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Debug|x86.Build.0 = Debug|Win32
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Release|x64.ActiveCfg = Release|x64
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Release|x64.Build.0 = Release|x64
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Release|x86.ActiveCfg = Release|Win32
+		{837EDC4F-F059-485B-885E-7EDAA9C4392B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -92,10 +92,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)Debug\Libraries.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,9 +155,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="OS_Lab11_Server.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Book.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
