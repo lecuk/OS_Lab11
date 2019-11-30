@@ -4,8 +4,6 @@
 //SERVER
 int main()
 {
-	// it'sa me marioo
-	This code doesn't work;
-		asdfjas; dfk;d
+	//get the fuck outta here
 	return 0;
 }
