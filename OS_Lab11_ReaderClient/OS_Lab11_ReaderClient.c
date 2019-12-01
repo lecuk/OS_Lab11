@@ -27,7 +27,7 @@ int main()
 
 	HANDLE hFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, FILEMAP_NAME);
 	if (hFileMap == NULL) {
-		printf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
+		fprintf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
 		return -1;
 	}
 
@@ -51,10 +51,6 @@ int main()
 		char fileName[BOOK_NAME_LEN];
 		strncpy(fileName, pbMapView + FILEMAP_PATH_ADDRESS, BOOK_NAME_LEN);
 
-		char bookName[BOOK_NAME_LEN];
-		strcpy(bookName, fileName);
-
-		//strcat(fileName, ".txt");
 		HANDLE hFile = CreateFileA(
 			fileName,
 			GENERIC_READ,
@@ -64,18 +60,19 @@ int main()
 			FILE_ATTRIBUTE_NORMAL,
 			NULL);
 		if (hFile == INVALID_HANDLE_VALUE) {
-			printf(stderr, "Can't open a file. Error code: %lu\n", GetLastError());
+			fprintf(stderr, "Can't open a file. Error code: %lu\n", GetLastError());
 			continue;
 		}
 
-		char readText[1000];
 		DWORD fileSize = GetFileSize(hFile, &fileSize);
-		if (ReadFile(hFile,	readText, fileSize, NULL, NULL)) {
-			printf(stderr, "Can't read from a file. Error code: %lu\n", GetLastError());
+		char *readText = calloc(fileSize + 1, sizeof(char));
+		unsigned long readBytes;
+		if (!ReadFile(hFile, readText, fileSize, &readBytes, NULL)) {
+			fprintf(stderr, "Can't read from a file. Error code: %lu\n", GetLastError());
 			continue;
 		}
 
-		Book *book = book_createFromText(bookName, readText);
+		Book *book = book_createFromText(fileName, readText);
 		reading(book);
 		book_dispose(book);
 
