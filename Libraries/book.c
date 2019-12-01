@@ -14,6 +14,7 @@ Book* book_createFromText(const char* name, const char* text)
 		return NULL;
 	}
 	strcpy(book->text, text);
+	return book;
 }
 
 Book* book_createFromLines(const char* name, const char** lines, int lineCount)
