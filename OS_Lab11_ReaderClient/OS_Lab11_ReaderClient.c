@@ -48,7 +48,7 @@ int main()
 			continue;
 
 		char fileName[BOOK_NAME_LEN];
-		strncpy(fileName, pbMapView[FILEMAP_PATH_ADDRESS], BOOK_NAME_LEN);
+		strncpy(fileName, pbMapView + FILEMAP_PATH_ADDRESS, BOOK_NAME_LEN);
 
 		char bookName[BOOK_NAME_LEN];
 		strcpy(bookName, fileName);
