@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <Windows.h>
 #include "book.h"
-#include "llist.h"
 
 //READER
 int main()
