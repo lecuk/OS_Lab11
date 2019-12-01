@@ -22,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libraries", "Libraries\Libr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFA08E9A-7DA3-4E6C-841B-BA01789CC8AE}"
 	ProjectSection(SolutionItems) = preProject
-		currentbook.dat = currentbook.dat
+		OS_Lab11_Server\currentbook.mmf = OS_Lab11_Server\currentbook.mmf
 	EndProjectSection
 EndProject
 Global
