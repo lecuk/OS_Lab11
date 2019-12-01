@@ -10,9 +10,9 @@ int main()
 		HANDLE file = CreateFileA(FILEMAP_PATH, GENERIC_READ | GENERIC_WRITE,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
 			FILE_ATTRIBUTE_NORMAL, NULL);
-
-		printf("File was created: %s\n", FILEMAP_PATH);
-
+		if (file) {
+			printf("File was created: %s\n", FILEMAP_PATH);
+		}
 		HANDLE fileMap = CreateFileMappingA(file, NULL, PAGE_READWRITE, 0, buffer_size, FILEMAP_NAME);
 		if (!fileMap) {
 			printf("Can't create file: %s. Error code: %lu\n", FILEMAP_PATH, GetLastError());
