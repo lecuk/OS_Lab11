@@ -38,7 +38,6 @@ int main()
 	}
 
 	Book* book = book_createFromLines(name, lines, linesList->count);
-	Book* book2 = book_createFromText(name, "abcd\nefg\nhjklmn\nop");
 
 	for (int i = 0; i < linesList->count; ++i)
 	{
@@ -51,7 +50,7 @@ int main()
 	printf("Book: \"%s\"\n", name);
 	lineNumber = 1;
 	printf("%3d | ", lineNumber);
-	for (char* c = book2->text; *c != 0; ++c)
+	for (char* c = book->text; *c != 0; ++c)
 	{
 		putchar(*c);
 		if (*c == '\n')
@@ -62,8 +61,7 @@ int main()
 		Sleep((strchr(" .,?!;:\n", *c)) ? 150 : 40);
 	}
 
-	//book_dispose(book);
-	book_dispose(book2);
+	book_dispose(book);
 
 	return 0;
 }
