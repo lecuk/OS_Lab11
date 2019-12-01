@@ -1,37 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-
+#include <filemapping.h>
 
 int main()
 {
-		int buffer_size = 512;
+		int buffer_size = 128;
 
-		HANDLE hFile = CreateFileA("aaa", GENERIC_READ | GENERIC_WRITE,
-			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+		HANDLE file = CreateFileA(FILEMAP_PATH, GENERIC_READ | GENERIC_WRITE,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
 			FILE_ATTRIBUTE_NORMAL, NULL);
 
-		HANDLE hFileMap = CreateFileMappingA(hFile, NULL, PAGE_READWRITE, 0, buffer_size, "aaa.dat");
-		if (hFileMap == NULL) {
-			fprintf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
+		printf("File was created: %s\n", FILEMAP_PATH);
+
+		HANDLE fileMap = CreateFileMappingA(file, NULL, PAGE_READWRITE, 0, buffer_size, FILEMAP_NAME);
+		if (!fileMap) {
+			printf("Can't create file: %s. Error code: %lu\n", FILEMAP_PATH, GetLastError());
 			return 1;
 		}
 
-		PBYTE pbMapView = (PBYTE)MapViewOfFile(hFileMap, FILE_MAP_ALL_ACCESS, 0, 0, buffer_size);
-		if (pbMapView == NULL) {
-			fprintf(stderr, "Can't map view of file. Error code: %lu\n", GetLastError());
+		printf("File map was created: %s\n", FILEMAP_NAME);
+
+		PBYTE fileMapView = (PBYTE)MapViewOfFile(fileMap, FILE_MAP_ALL_ACCESS, 0, 0, buffer_size);
+		if (!fileMapView) {
+			printf("Can't map view of file. Error code: %lu\n", GetLastError());
 			return 1;
 		}
-		// делаю приостановку, чтобы можно было запустить подчиненный 
-		// процесс, который хочет получить доступ к буферу
-		printf("Press Enter to continue...\n");
+
+		printf("File view was created with size: %d\n", buffer_size);
+
+		void* mutex = CreateMutexA(NULL, FALSE, MUTEX_NAME);
+		if (!mutex)
+		{
+			printf("Can't create mutex. Error code: %lu\n", GetLastError());
+			return 1;
+		}
+
+		printf("Mutex was created with name: %s\n", MUTEX_NAME);
+
+		printf("Press ENTER to close the program...\n");
 		getchar();
 
-
-		UnmapViewOfFile(pbMapView);
-		CloseHandle(hFileMap);
-		CloseHandle(hFile);
-		printf("Map handles closed\n");
+		UnmapViewOfFile(fileMapView);
+		CloseHandle(fileMap);
+		CloseHandle(file);
+		printf("All handles were closed.\n");
 		return 0;
 	
 }
