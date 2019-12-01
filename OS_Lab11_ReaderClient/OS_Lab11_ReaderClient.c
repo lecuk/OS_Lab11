@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <Windows.h>
+#include <conio.h>
 #include "book.h"
 #include "filemapping.h"
 
@@ -40,21 +41,49 @@ int main()
 		return -1;
 	}
 
-	//Dummy begin
-	char readName[BOOK_NAME_LEN] = "The King in Yellow";
-	char *readText = calloc(500, sizeof(char));
-	readText = "Along the shore the cloud waves break,\n"
-		"The twin suns sink behind the lake,\n"
-		"The shadows lengthen\n"
-		"In Carcosa.\n";
-	//Dummy end
+	while (!kbhit())
+	{
+		Sleep(100);
+		if (!pbMapView[FILEMAP_FLAG_ADDRESS])
+			continue;
 
-	Book *book = book_createFromText(readName, readText);
-	reading(book);
-	book_dispose(book);
+		char fileName[BOOK_NAME_LEN];
+		strncpy(fileName, pbMapView[FILEMAP_PATH_ADDRESS], BOOK_NAME_LEN);
+
+		char bookName[BOOK_NAME_LEN];
+		strcpy(bookName, fileName);
+
+		strcat(fileName, ".txt");
+		HANDLE hFile = CreateFileA(
+			fileName,
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			printf(stderr, "Can't open a file. Error code: %lu\n", GetLastError());
+			continue;
+		}
+
+		char *readText;
+		DWORD fileSize = GetFileSize(hFile, &fileSize);
+		if (ReadFile(hFile,	readText, fileSize, NULL, NULL)) {
+			printf(stderr, "Can't read from a file. Error code: %lu\n", GetLastError());
+			continue;
+		}
+
+		Book *book = book_createFromText(bookName, readText);
+		reading(book);
+		book_dispose(book);
+
+		CloseHandle(hFile);
+
+		pbMapView[FILEMAP_FLAG_ADDRESS] = 0;
+	}
 
 	//Clean up
-	//TODO: Insert clean up function here
 	UnmapViewOfFile(pbMapView);
 	CloseHandle(hFileMap);
 
