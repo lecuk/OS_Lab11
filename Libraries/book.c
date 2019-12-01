@@ -7,7 +7,7 @@ Book* book_createFromText(const char* name, const char* text)
 	Book* book = malloc(sizeof(Book));
 	if (!book) return NULL;
 	strcpy(book->name, name);
-	book->text = calloc(strlen(text), sizeof(char));
+	book->text = calloc(strlen(text) + 1, sizeof(char));
 	if (!book->text)
 	{
 		free(book);
