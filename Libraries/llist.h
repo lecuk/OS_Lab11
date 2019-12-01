@@ -9,15 +9,15 @@
 //Structure necessary for TLinkedList to work. Contains pointer to the next node and pointer to data it contains.
 typedef struct TLinkedListNode
 {
-	void *item;
-	struct TLinkedListNode *nextNode;
+	void* item;
+	struct TLinkedListNode* nextNode;
 } LinkedListNode;
 
 //Structure which defines one-way linked list. All functions which work with linked list have prefix "llist_".
 typedef struct TLinkedList
 {
-	LinkedListNode *firstNode;
-	Comparision *comparer;
+	LinkedListNode* firstNode;
+	Comparision* comparer;
 	bool byValue;
 	size_t itemSize;
 	size_t count;
@@ -27,56 +27,56 @@ typedef struct TLinkedList
 //Parameter #1 - pointer to function which compares items in list to determine their order;
 //Parameter #2 - boolean which defines if list copies values of items, or pointers to original items added;
 //Parameter #3 - size of items stored in list (necessary only if byValue == true).
-LinkedList *llist_create(Comparision *comparer, bool byValue, const size_t itemSize);
+LinkedList* llist_create(Comparision* comparer, bool byValue, const size_t itemSize);
 
-//Add new item to list. 
+//Add new item to list.
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to add.
-void llist_add(LinkedList *list, const void *item);
+void llist_add(LinkedList* list, const void* item);
 
 //Add new item to list (by pointer). 
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to add.
-void llist_addItem(LinkedList *list, void *item);
+void llist_addItem(LinkedList* list, void* item);
 
-//Add new item to list (by value). 
+//Add new item to list (by value).
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to add.
-void llist_addValue(LinkedList *list, const void *valuePtr);
+void llist_addValue(LinkedList* list, const void* valuePtr);
 
 //Remove existing item from list. If no such item is found, function does nothing. 
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to remove.
-void llist_remove(LinkedList *list, const void *item);
+void llist_remove(LinkedList* list, const void* item);
 
 //Remove existing item from list (search by pointer). If no such item is found, function does nothing. 
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to remove.
-void llist_removeItem(LinkedList *list, const void *item);
+void llist_removeItem(LinkedList* list, const void* item);
 
 //Remove existing item from list (search by value). If no such item is found, function does nothing. 
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to remove.
-void llist_removeValue(LinkedList *list, const void *valuePtr);
+void llist_removeValue(LinkedList* list, const void* valuePtr);
 
 //Returns true if pointer to item is in the list.
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to check.
-bool llist_containsItem(const LinkedList *list, const void *item);
+bool llist_containsItem(const LinkedList* list, const void* item);
 
 //Returns true if value of item is in the list.
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to item to check.
-bool llist_containsValue(const LinkedList *list, const void *valuePtr);
+bool llist_containsValue(const LinkedList* list, const void* valuePtr);
 
 //Changes order in which items are stored in linked list.
 //Parameter #1 - pointer to linked list;
 //Parameter #2 - pointer to new comparision function.
-void llist_rearrange(LinkedList *list, Comparision *comparer);
+void llist_rearrange(LinkedList* list, Comparision* comparer);
 
 //Clears list and frees memory allocated.
 //Parameter #1 - pointer to linked list.
-void llist_dispose(LinkedList *list);
+void llist_dispose(LinkedList* list);
 
 //Removes all items from the list. If items are stored by value, they are freed automaticially.
 //Parameter #1 - pointer to linked list.
