@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="book.c" />
+    <ClCompile Include="filemapping.c" />
     <ClCompile Include="llist.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
