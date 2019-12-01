@@ -6,7 +6,7 @@ static int noComparision(const void* item1, const void* item2)
 	return 0;
 }
 
-void llist_add(LinkedList *list, void *item)
+void llist_add(LinkedList* list, void* item)
 {
 	if (list->byValue)
 	{
@@ -18,15 +18,15 @@ void llist_add(LinkedList *list, void *item)
 	}
 }
 
-void llist_addItem(LinkedList *list, void *item)
+void llist_addItem(LinkedList* list, void* item)
 {
-	LinkedListNode *node = (LinkedListNode*)malloc(sizeof(LinkedListNode));
+	LinkedListNode* node = (LinkedListNode*)malloc(sizeof(LinkedListNode));
 	if (node)
 	{
 		node->nextNode = NULL;
 		node->item = item;
-		LinkedListNode *current = list->firstNode;
-		LinkedListNode *previous = NULL;
+		LinkedListNode* current = list->firstNode;
+		LinkedListNode* previous = NULL;
 		while (current && list->comparer(item, current->item) <= 0)
 		{
 			previous = current;
@@ -45,9 +45,9 @@ void llist_addItem(LinkedList *list, void *item)
 	}
 }
 
-void llist_addValue(LinkedList *list, const void *valuePtr)
+void llist_addValue(LinkedList* list, const void* valuePtr)
 {
-	void *item = malloc(list->itemSize);
+	void* item = malloc(list->itemSize);
 	if (item)
 	{
 		memcpy(item, valuePtr, list->itemSize);
@@ -55,7 +55,7 @@ void llist_addValue(LinkedList *list, const void *valuePtr)
 	}
 }
 
-void llist_remove(LinkedList *list, const void *item)
+void llist_remove(LinkedList* list, const void* item)
 {
 	if (list->byValue)
 	{
@@ -67,12 +67,12 @@ void llist_remove(LinkedList *list, const void *item)
 	}
 }
 
-void llist_removeItem(LinkedList *list, const void *item)
+void llist_removeItem(LinkedList* list, const void* item)
 {
-	LinkedListNode *current = list->firstNode;
+	LinkedListNode* current = list->firstNode;
 	if (current)
 	{
-		LinkedListNode *previous = NULL;
+		LinkedListNode* previous = NULL;
 		while (current && current->item != item)
 		{
 			previous = current;
@@ -91,12 +91,12 @@ void llist_removeItem(LinkedList *list, const void *item)
 	}
 }
 
-void llist_removeValue(LinkedList *list, const void *valuePtr)
+void llist_removeValue(LinkedList* list, const void* valuePtr)
 {
-	LinkedListNode *current = list->firstNode;
+	LinkedListNode* current = list->firstNode;
 	if (current)
 	{
-		LinkedListNode *previous = NULL;
+		LinkedListNode* previous = NULL;
 		while (current && !memcmp(current->item, valuePtr, list->itemSize))
 		{
 			previous = current;
@@ -115,9 +115,9 @@ void llist_removeValue(LinkedList *list, const void *valuePtr)
 	}
 }
 
-bool llist_containsItem(const LinkedList *list, const void *item)
+bool llist_containsItem(const LinkedList* list, const void* item)
 {
-	LinkedListNode *current = list->firstNode;
+	LinkedListNode* current = list->firstNode;
 	while (current)
 	{
 		if (current->item == item) return 1;
@@ -126,9 +126,9 @@ bool llist_containsItem(const LinkedList *list, const void *item)
 	return 0;
 }
 
-bool llist_containsValue(const LinkedList *list, const void *valuePtr)
+bool llist_containsValue(const LinkedList* list, const void* valuePtr)
 {
-	LinkedListNode *current = list->firstNode;
+	LinkedListNode* current = list->firstNode;
 	while (current)
 	{
 		if (!memcmp(current->item, valuePtr, list->itemSize)) return 1;
@@ -137,9 +137,9 @@ bool llist_containsValue(const LinkedList *list, const void *valuePtr)
 	return 0;
 }
 
-LinkedList *llist_create(Comparision *comparer, bool byValue, const size_t itemSize)
+LinkedList* llist_create(Comparision* comparer, bool byValue, const size_t itemSize)
 {
-	LinkedList *list = (LinkedList*)malloc(sizeof(LinkedList));
+	LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
 	if (list)
 	{
 		list->firstNode = NULL;
@@ -158,16 +158,16 @@ LinkedList *llist_create(Comparision *comparer, bool byValue, const size_t itemS
 	return list;
 }
 
-void llist_rearrange(LinkedList *list, Comparision *newComparer)
+void llist_rearrange(LinkedList* list, Comparision* newComparer)
 {
-	void **buffer;
+	void** buffer;
 	size_t count = list->count;
 	buffer = calloc(count, sizeof(void*));
 	if (buffer)
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			void *item = list->firstNode->item;
+			void* item = list->firstNode->item;
 			llist_removeItem(list, item);
 			buffer[i] = item;
 		}
@@ -184,14 +184,14 @@ void llist_clear(LinkedList* list)
 {
 	while (list->firstNode)
 	{
-		LinkedListNode *next = list->firstNode->nextNode;
+		LinkedListNode* next = list->firstNode->nextNode;
 		if (list->byValue) free(list->firstNode->item);
 		free(list->firstNode);
 		list->firstNode = next;
 	}
 }
 
-void llist_dispose(LinkedList *list)
+void llist_dispose(LinkedList* list)
 {
 	llist_clear(list);
 	free(list);

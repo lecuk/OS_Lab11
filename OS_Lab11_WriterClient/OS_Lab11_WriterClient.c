@@ -48,7 +48,18 @@ int main()
 	llist_dispose(linesList);
 
 	printf("Book: \"%s\"\n", name);
-	printf("%s", book->text);
+	lineNumber = 1;
+	printf("%3d | ", lineNumber);
+	for (char* c = book->text; *c != 0; ++c)
+	{
+		putchar(*c);
+		if (*c == '\n')
+		{
+			++lineNumber;
+			printf("%3d | ", lineNumber);
+		}
+		Sleep((strchr(" .,?!;:\n", *c)) ? 150 : 40);
+	}
 
 	book_dispose(book);
 
