@@ -18,7 +18,9 @@ int main()
 			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
 			FILE_ATTRIBUTE_NORMAL, NULL);
 
-		printf("File was created: %s\n", FILEMAP_PATH);
+		if (file) {
+			printf("File was created: %s\n", FILEMAP_PATH);
+		}
 
 		HANDLE fileMap = CreateFileMappingA(file, NULL, PAGE_READWRITE, 0, FILEMAP_BUFFER_SIZE, FILEMAP_NAME);
 		if (!fileMap) {
