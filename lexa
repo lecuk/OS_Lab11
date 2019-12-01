@@ -1,4 +1,0 @@
-printf("Book: \"%s\"\n", name);
-lineNumber = 1;
-printf("%3d | ", lineNumber);
-for (char* c = book->text; *c != 0; ++c)

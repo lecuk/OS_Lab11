@@ -22,6 +22,7 @@ void reading(Book *bookToRead)
 //READER
 int main()
 {
+	Sleep(1000);
 	printf("[Reader] You are reader.\n");
 
 	HANDLE hFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, FILEMAP_NAME);
@@ -37,7 +38,7 @@ int main()
 		0,
 		FILEMAP_BUFFER_SIZE);
 	if (pbMapView == NULL) {
-		printf(stderr, "Can't map view of file. Error code: %lu\n", GetLastError());
+		printf( "Can't map view of file. Error code: %lu\n", GetLastError());
 		return -1;
 	}
 
@@ -48,12 +49,12 @@ int main()
 			continue;
 
 		char fileName[BOOK_NAME_LEN];
-		strncpy(fileName, pbMapView[FILEMAP_PATH_ADDRESS], BOOK_NAME_LEN);
+		strncpy(fileName, pbMapView + FILEMAP_PATH_ADDRESS, BOOK_NAME_LEN);
 
 		char bookName[BOOK_NAME_LEN];
 		strcpy(bookName, fileName);
 
-		strcat(fileName, ".txt");
+		//strcat(fileName, ".txt");
 		HANDLE hFile = CreateFileA(
 			fileName,
 			GENERIC_READ,
@@ -67,7 +68,7 @@ int main()
 			continue;
 		}
 
-		char *readText;
+		char readText[1000];
 		DWORD fileSize = GetFileSize(hFile, &fileSize);
 		if (ReadFile(hFile,	readText, fileSize, NULL, NULL)) {
 			printf(stderr, "Can't read from a file. Error code: %lu\n", GetLastError());

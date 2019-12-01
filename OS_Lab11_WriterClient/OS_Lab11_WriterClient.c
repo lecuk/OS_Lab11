@@ -91,8 +91,6 @@ int main()
 		Book* book = book_createFromLines(name, lines, linesList->count);
 		char path[100];
 		sprintf(path, "../%s", book->name);
-		fileMapView[FILEMAP_FLAG_ADDRESS] = 1;
-		strcpy(&fileMapView[FILEMAP_PATH_ADDRESS], path);
 		FILE* file = fopen(path, "w");
 		if (!file)
 		{
@@ -102,6 +100,8 @@ int main()
 		{
 			fprintf(file, "%s", book->text);
 			fclose(file);
+			fileMapView[FILEMAP_FLAG_ADDRESS] = 1;
+			strcpy(&fileMapView[FILEMAP_PATH_ADDRESS], path);
 			printf("Successfully posted book \"%s\"\n", book->name);
 		}
 
