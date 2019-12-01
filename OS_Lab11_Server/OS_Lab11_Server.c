@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "filemapping.h"
+#include <conio.h>
 
 int cleanupAndExit(int code, void* mutex, void* file, void* fileMap, BYTE* fileMapView);
 
@@ -46,8 +47,36 @@ int main()
 
 	printf("File view was created with size: %d\n", FILEMAP_BUFFER_SIZE);
 
-	printf("Press ENTER to close the program...\n");
-	getchar();
+	printf("Press Q to close the program.\n");
+
+	int bookFlag = fileMapView[FILEMAP_FLAG_ADDRESS];
+	while (1)
+	{
+		if (_kbhit())
+		{
+			if (tolower(_getch()) == 'q')
+			{
+				printf("Exiting...\n");
+				break;
+			}
+		}
+
+		int curBookFlag = fileMapView[FILEMAP_FLAG_ADDRESS];
+		if (bookFlag != curBookFlag)
+		{
+			if (curBookFlag)
+			{
+				printf("A book appeared in shop: \"%s\"\n", &fileMapView[FILEMAP_PATH_ADDRESS]);
+			}
+			else
+			{
+				printf("A book was read: \"%s\"\n", &fileMapView[FILEMAP_PATH_ADDRESS]);
+			}
+			bookFlag = curBookFlag;
+		}
+
+		Sleep(100);
+	}
 
 	return cleanupAndExit(0, mutex, file, fileMap, fileMapView);
 }

@@ -39,7 +39,7 @@ int main()
 
 	while (1)
 	{
-		printf("Do you want to write a book?\n");
+		printf("Do you want to write a book? (Y/N)\n");
 		int input = tolower(_getch());
 		if (input == 'n')
 		{
@@ -51,6 +51,7 @@ int main()
 			if (fileMapView[FILEMAP_FLAG_ADDRESS] == 1)
 			{
 				printf("Book store is full, try later.\n");
+				continue;
 			}
 		}
 		else
@@ -88,10 +89,21 @@ int main()
 		}
 
 		Book* book = book_createFromLines(name, lines, linesList->count);
-		char path[BOOK_NAME_LEN + 4];
-		sprintf(path, "%s.txt", book->name);
+		char path[100];
+		sprintf(path, "../%s", book->name);
 		fileMapView[FILEMAP_FLAG_ADDRESS] = 1;
 		strcpy(&fileMapView[FILEMAP_PATH_ADDRESS], path);
+		FILE* file = fopen(path, "w");
+		if (!file)
+		{
+			printf("Cannot open file: %s\n", path);
+		}
+		else
+		{
+			fprintf(file, "%s", book->text);
+			fclose(file);
+			printf("Successfully posted book \"%s\"\n", book->name);
+		}
 
 		for (int i = 0; i < linesList->count; ++i)
 		{
@@ -99,23 +111,8 @@ int main()
 		}
 		free(lines);
 
-		llist_dispose(linesList);
-
-		printf("Book: \"%s\"\n", name);
-		lineNumber = 1;
-		printf("%3d | ", lineNumber);
-		for (char* c = book->text; *c != 0; ++c)
-		{
-			putchar(*c);
-			if (*c == '\n')
-			{
-				++lineNumber;
-				printf("%3d | ", lineNumber);
-			}
-			Sleep((strchr(" .,?!;:\n", *c)) ? 150 : 40);
-		}
-
 		book_dispose(book);
+		llist_dispose(linesList);
 	}
 	return cleanupAndExit(0, mutex, NULL, fileMap, fileMapView);
 }
