@@ -6,7 +6,9 @@
 typedef struct sBook
 {
 	char name[BOOK_NAME_LEN];
-	char** lines;
+	char* text;
 } Book;
 
-Book* book_create(const char* name, char** lines);
+Book* book_createFromText(const char* name, const char* text);
+Book* book_createFromLines(const char* name, const char** lines, int lineCount);
+void book_dispose(Book* book);

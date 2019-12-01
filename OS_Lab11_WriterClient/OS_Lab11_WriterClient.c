@@ -7,8 +7,6 @@
 //WRITER
 int main()
 {
-	LinkedList* linesList = llist_create(NULL, FALSE, sizeof(char*));
-
 	printf("You are writer.\n");
 
 	printf("Write a book. Enter book name:\n");
@@ -17,12 +15,13 @@ int main()
 	name[strlen(name) - 1] = 0;
 
 	printf("Now, write text of your book. Write /stop to finish.\n");
+	LinkedList* linesList = llist_create(NULL, FALSE, sizeof(char*));
 	while (TRUE)
 	{
+		printf("> ");
 		char line[100];
 		fgets(line, 100, stdin);
-		line[strlen(line) - 1] = 0;
-		if (!strcmp(line, "/stop")) break;
+		if (!strcmp(line, "/stop\n")) break;
 		char* allocatedLine = calloc(strlen(line) + 1, sizeof(char));
 		strcpy(allocatedLine, line);
 		llist_add(linesList, allocatedLine);
@@ -30,16 +29,28 @@ int main()
 
 	char** lines = calloc(linesList->count, sizeof(char*));
 
-	printf("Book: \"%s\"\n", name);
-	int lineNumber = 1;
+	int lineNumber = 0;
 	llist_foreach(linesList, line)
 	{
 		char* line = line_node->item;
-		lines[lineNumber - 1] = line;
-		printf("%3d: %s\n", lineNumber, line);
+		lines[lineNumber] = line;
 		++lineNumber;
 	}
 
-	Book* book = book_create(name, lines);
+	Book* book = book_createFromLines(name, lines, linesList->count);
+
+	for (int i = 0; i < linesList->count; ++i)
+	{
+		free(lines[i]);
+	}
+	free(lines);
+
+	llist_dispose(linesList);
+
+	printf("Book: \"%s\"\n", name);
+	printf("%s", book->text);
+
+	book_dispose(book);
+
 	return 0;
 }
