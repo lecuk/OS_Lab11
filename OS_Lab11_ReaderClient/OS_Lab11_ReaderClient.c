@@ -1,49 +1,15 @@
 #include <stdio.h>
 #include <Windows.h>
+#include <conio.h>
 #include "book.h"
 #include "filemapping.h"
 
-//READER
-int main()
+void reading(Book *bookToRead)
 {
-	
-
-	//TODO: Take mapped file and get data from it
-	//Take data from map file somewhere from here
-	HANDLE hFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, FILEMAP_NAME);
-	if (hFileMap == NULL) {
-		printf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
-		return 13;
-	}
-	else {
-		printf("[Console] File opened succesfully\n");
-	}
-
-	char* pbMapView = (char*)MapViewOfFile(hFileMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-	if (pbMapView == NULL) {
-		printf(stderr, "Can't map view of file. Error code: %lu)\n", GetLastError());
-		return 13;
-	} else {
-		printf("[Console] Map view created succesfully\n");
-	}
-	
-	printf("[Console] Test %s\n", pbMapView);
-	printf("\n");
-	printf("[Reader] You are reader.\n");
-
-	char readName[BOOK_NAME_LEN] = "The King in Yellow";
-	char *readText = calloc(500, sizeof(char));
-	readText = "Along the shore the cloud waves break,\n"
-		"The twin suns sink behind the lake,\n"
-		"The shadows lengthen\n"
-		"In Carcosa.\n";
-	//To here
-
-	Book *book = book_createFromText(readName, readText);
-	printf("[Reader] Proceed to read a book \"%s\".\n", book->name);
+	printf("[Reader] Proceed to read a book \"%s\".\n", bookToRead->name);
 	printf("[Reader] Now, read the book till it's finished.\n");
 	printf("> ");
-	for (char* characher = book->text; *characher != '\0'; ++characher)
+	for (char* characher = bookToRead->text; *characher != '\0'; ++characher)
 	{
 		putchar(*characher);
 		Sleep((strchr(" .,?!\n\t", *characher)) ? 300 : 50);
@@ -51,8 +17,75 @@ int main()
 			printf("> ");
 	}
 	printf("[Reader] Reading finished.\n");
+}
 
-	book_dispose(book);
+//READER
+int main()
+{
+	printf("[Reader] You are reader.\n");
+
+	HANDLE hFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, FILEMAP_NAME);
+	if (hFileMap == NULL) {
+		printf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
+		return -1;
+	}
+
+	PBYTE pbMapView = (PBYTE)MapViewOfFile(
+		hFileMap,
+		FILE_MAP_ALL_ACCESS,
+		0,
+		0,
+		FILEMAP_BUFFER_SIZE);
+	if (pbMapView == NULL) {
+		printf(stderr, "Can't map view of file. Error code: %lu\n", GetLastError());
+		return -1;
+	}
+
+	while (!kbhit())
+	{
+		Sleep(100);
+		if (!pbMapView[FILEMAP_FLAG_ADDRESS])
+			continue;
+
+		char fileName[BOOK_NAME_LEN];
+		strncpy(fileName, pbMapView[FILEMAP_PATH_ADDRESS], BOOK_NAME_LEN);
+
+		char bookName[BOOK_NAME_LEN];
+		strcpy(bookName, fileName);
+
+		strcat(fileName, ".txt");
+		HANDLE hFile = CreateFileA(
+			fileName,
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			printf(stderr, "Can't open a file. Error code: %lu\n", GetLastError());
+			continue;
+		}
+
+		char *readText;
+		DWORD fileSize = GetFileSize(hFile, &fileSize);
+		if (ReadFile(hFile,	readText, fileSize, NULL, NULL)) {
+			printf(stderr, "Can't read from a file. Error code: %lu\n", GetLastError());
+			continue;
+		}
+
+		Book *book = book_createFromText(bookName, readText);
+		reading(book);
+		book_dispose(book);
+
+		CloseHandle(hFile);
+
+		pbMapView[FILEMAP_FLAG_ADDRESS] = 0;
+	}
+
+	//Clean up
+	UnmapViewOfFile(pbMapView);
+	CloseHandle(hFileMap);
 
 	return 0;
 }
