@@ -90,7 +90,7 @@ int main()
 
 		Book* book = book_createFromLines(name, lines, linesList->count);
 		char path[100];
-		sprintf(path, "../%s", book->name);
+		sprintf(path, "../books/%s", book->name);
 		FILE* file = fopen(path, "w");
 		if (!file)
 		{
