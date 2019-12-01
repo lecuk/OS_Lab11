@@ -29,13 +29,11 @@ int main()
 
 	char** lines = calloc(linesList->count, sizeof(char*));
 
-	printf("Book: \"%s\"\n", name);
-	int lineNumber = 1;
+	int lineNumber = 0;
 	llist_foreach(linesList, line)
 	{
 		char* line = line_node->item;
-		lines[lineNumber - 1] = line;
-		printf("%3d| %s", lineNumber, line);
+		lines[lineNumber] = line;
 		++lineNumber;
 	}
 
@@ -48,6 +46,10 @@ int main()
 	free(lines);
 
 	llist_dispose(linesList);
+
+	printf("Book: \"%s\"\n", name);
+	printf("%s", book->text);
+
 	book_dispose(book);
 
 	return 0;
