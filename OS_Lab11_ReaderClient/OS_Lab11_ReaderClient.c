@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include "book.h"
+#include "filemapping.h"
 
 //READER
 int main()
@@ -9,6 +10,18 @@ int main()
 
 	//TODO: Take mapped file and get data from it
 	//Take data from map file somewhere from here
+	//printf("Slave Process Running\n");
+	//HANDLE hFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, FILEMAP_NAME);
+	//if (hFileMap == NULL) {
+	//	fprintf(stderr, "Can't open memory mapped file. Error code: %lu\n", GetLastError());
+	//	return 1;
+	//}
+	//PBYTE pbMapView = (PBYTE)MapViewOfFile(hFileMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+	//if (pbMapView == NULL) {
+	//	fprintf(stderr, "Can't map view of file. Error code: %lu\n", GetLastError());
+	//	return 1;
+	//}
+
 	char readName[BOOK_NAME_LEN] = "The King in Yellow";
 	char *readText = calloc(500, sizeof(char));
 	readText = "Along the shore the cloud waves break,\n"
@@ -31,6 +44,9 @@ int main()
 	printf("[Reader] Reading finished.\n");
 
 	book_dispose(book);
+
+	//UnmapViewOfFile(pbMapView);
+	//CloseHandle(hFileMap);
 
 	return 0;
 }
